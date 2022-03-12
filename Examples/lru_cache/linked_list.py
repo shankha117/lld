@@ -1,136 +1,82 @@
-import traceback
-
-
 class Node:
-    def __init__(self, data):
-        self.data = data
-        self.next = None
+
+    def __init__(self, key, val):
+        self.key, self.val = key, val
+
+        self.prev = self.next = None
 
 
-class Deque:
-    def __init__(self):
-        self.front = None
-        self.Size = 0
+class LRUCache:
 
-    def isEmpty(self):
-        if self.Size == 0:
-            return True
-        return False
+    def __init__(self, capacity: int):
 
-    def dequeLength(self):
-        return self.Size
+        self.cap = capacity
 
-    def appendleft(self, data):
-        temp = Node(data)
-        if self.front == None:
-            self.front = temp
-        else:
-            temp.next = self.front
-            self.front = temp
-        self.Size += 1
+        self.cache = {}
 
-    def append(self, data):
-        temp = Node(data)
-        if self.front == None:
-            self.front = temp
-            self.Size = self.Size + 1
-        else:
-            curr = self.front
-            while curr.next != None:
-                curr = curr.next
-            curr.next = temp
-            self.Size = self.Size + 1
+        # left -> # LRU , Right -> #MRU
+        self.left, self.right = Node(0, 0), Node(0, 0)
 
-    def popleft(self):
-        try:
+        self.left.next, self.right.prev = self.right, self.left
 
-            if self.Size == 0:
-                raise Exception("Deque is Empty")
-            else:
-                temp = self.front
-                self.front = self.front.next
-                self.Size = self.Size - 1
-                return temp.data
+    def get(self, key: int) -> int:
 
-        except Exception as e:
-            print(traceback.format_exc())
-            print(str(e))
+        if key in self.cache:
+            # remove from the list
+            self.remove(self.cache[key])
 
-    def print_list(self):
-        print("\n--")
-        cur = self.front
-        while cur:
-            print(cur.data, end="--")
-            cur = cur.next
+            # insert at the right of the list
+            self.insert(self.cache[key])
 
-    def remove(self, data):
-        try:
+            # update most recent
+            return self.cache[key].val
 
-            if self.front.data == data:
-                self.front = self.front.next
-                self.Size -= 1
-                return
-
-            cur = self.front.next
-            prev = self.front
-            while cur is not None:
-                if cur.data == data:
-                    prev.next = cur.next
-                prev = cur
-                cur = cur.next
-
-
-
-        except Exception as e:
-            print(traceback.format_exc())
-            print(str(e))
-
-
-class Cache(object):
-
-    def __init__(self, MAX_SIZE):
-        self.MAX_SIZE = MAX_SIZE
-        self.size = 0
-        self.lookup = {}
-        self.queue = Deque()
-
-    def get(self, key):
-        """Get the stored query result from the cache.
-        Accessing a node updates its position to the front of the LRU list.
-        """
-        node = self.lookup.get(key)
-        if node is not None:
-            self.queue.remove(data=key)
-            self.queue.append(data=key)
-            return node
-        else:
-            return None
-
-    def update(self, key: int, value: int):
-        if self.get(key):
-            self.lookup[key] = value
-        else:
-            raise KeyError("Key Not Found !")
+        return -1
 
     def put(self, key: int, value: int) -> None:
 
-        if self.lookup.get(key, None):
-            self.update(key, value)
+        if key in self.cache:
+            self.remove(self.cache[key])
 
-        elif self.queue.dequeLength() < self.MAX_SIZE:
-            self.queue.append(key)
-            self.lookup[key] = value
+        # add a new node into the cache
+        self.cache[key] = Node(key, value)
 
-        else:
-            popped = self.queue.popleft()
-            self.queue.append(key)
-            self.lookup[key] = value
-            self.lookup[popped] = None
+        # insert the new node into the list
+        self.insert(self.cache[key])
 
+        if len(self.cache) > self.cap:
+            # remove the LRU Node
+            lru = self.left.next
+
+            self.remove(lru)
+
+            del self.cache[lru.key]
+
+    # insert at right
+    def insert(self, node):
+
+        prev, nxt = self.right.prev, self.right
+
+        prev.next = nxt.prev = node
+
+        node.prev, node.next = prev, nxt
+
+    # remove from the list
+    def remove(self, node):
+
+        prev, nxt = node.prev, node.next
+
+        prev.next, nxt.prev = nxt, prev
+
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
 
 def main():
     # Your LRUCache object will be instantiated and called as such:
-    obj = Cache(4)
+    obj = LRUCache(4)
     print(obj.get("s"))
     obj.put("s", 1)
     obj.put("s", 2)
