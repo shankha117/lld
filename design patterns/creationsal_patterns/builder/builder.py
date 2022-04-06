@@ -1,16 +1,16 @@
 """
+Builder Pattern
 Builder is a solution to an Anti-Pattern called Telescoping Constructor.
 An Anti-Pattern is the opposite of the best practice.
 The Telescoping Constructor Anti-Pattern occurs when a software developer attempts to build a complex object using an excessive number of constructors.
 The Builder pattern is trying to solve this problem. Think of a scenario, in which you're trying to build a car.
 This requires various car parts to be first constructed individually and then assembled.
 The Builder pattern brings an order to this chaotic process to remove this unnecessary complexity in building a complex object.
-
 """
 
 
 class Director():
-    """Director"""
+    """Director Class"""
 
     def __init__(self, builder):
         self._builder = builder
