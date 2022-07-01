@@ -3,13 +3,13 @@ import functools
 # Try the various combinations below!
 # user = {'username': 'joe123', 'access_level': 'admin'}
 # user = {'username': 'bob', 'access_level': 'admin'}
-user = {'username': 'joe123', 'access_level': 'user'}
-# user = {'username': 'bob', 'access_level': 'user'}
+# user = {'username': 'joe123', 'access_level': 'user'}
+user = {'username': 'bob', 'access_level': 'user'}
 
 
 def user_name_starts_with_j(func):
     """
-    This decorator only runs the function passed if the user's username starts with a j.
+    This decorator only runs the function passed if the user's username starts with a `j`.
     """
 
     @functools.wraps(func)
