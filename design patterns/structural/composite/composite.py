@@ -71,13 +71,19 @@ def main():
     top = Composite("top_menu")
 
     # Build a submenu 2 that is not a composite
-    sub2 = Child("submenu2")
+    sub2 = Composite("submenu2")
+
+    sub21 = Child("submenu21")
+    sub22 = Child("submenu22")
+
+    sub2.append_child(sub21)
+    sub2.append_child(sub21)
 
     # Add the composite submenu 1 to the top-level composite menu
     top.append_child(sub1)
 
     # Add the plain submenu 2 to the top-level composite menu
-    top.append_child(sub2)
+    sub1.append_child(sub2)
 
     # Let's test if our Composite pattern works!
     top.component_function(1)

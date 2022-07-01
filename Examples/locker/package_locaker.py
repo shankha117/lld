@@ -1,3 +1,7 @@
+"""
+Design a Locker ; similar to Parking Lot
+"""
+
 from enum import Enum
 
 
@@ -114,14 +118,16 @@ p4 = PackageFactory.create(Size.LARGE)
 print(lm.extract_package_from_locker(large_locker.get_locker_id()))
 # None
 
+
+"""
+(0, (3, True))
+(1, (-1, False))
+(2, (-1, False))
+(3, (-1, False))
+"""
+
 packages = [p1, p2, p3, p4]
 for i, p in enumerate(packages):
     print(i, lm.occupy_locker(p))
-    """
-    (0, (3, True))
-    (1, (-1, False))
-    (2, (-1, False))
-    (3, (-1, False))
-    """
 
 print(lm.extract_package_from_locker(large_locker.get_locker_id()))

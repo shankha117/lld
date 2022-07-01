@@ -1,9 +1,9 @@
 import functools
 
 # Try the various combinations below!
-user = {'username': 'joe123', 'access_level': 'admin'}
+# user = {'username': 'joe123', 'access_level': 'admin'}
 # user = {'username': 'bob', 'access_level': 'admin'}
-# user = {'username': 'joe123', 'access_level': 'user'}
+user = {'username': 'joe123', 'access_level': 'user'}
 # user = {'username': 'bob', 'access_level': 'user'}
 
 

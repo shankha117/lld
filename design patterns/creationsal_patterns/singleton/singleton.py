@@ -1,4 +1,5 @@
 """
+ Singleton Examples: Borg is not recommended
  An object-oriented way of providing global variables is Singleton.
  Singleton is the pattern you need when you'd like to allow only one object to be instantiated from a class.
 
